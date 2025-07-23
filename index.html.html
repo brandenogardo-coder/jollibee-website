@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jollibee - Home of the Langhap-Sarap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e31e24;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: #e31e24;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #e31e24 0%, #ff6b35 100%);
+            color: white;
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #e31e24;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #e31e24;
+        }
+
+        /* About Page Styles */
+        .about-hero {
+            background: linear-gradient(135deg, #ff6b35 0%, #e31e24 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .story-section {
+            padding: 6rem 0;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #e31e24, #ff6b35);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            overflow: hidden;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        /* Products Page Styles */
+        .products-hero {
+            background: linear-gradient(135deg, #ff9500 0%, #e31e24 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            background: linear-gradient(45deg, #e31e24, #ff6b35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 2rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #e31e24;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-top: 1rem;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.15);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="c:\Users\ACTIVE PC\Downloads\jollibee-logo-png.png" alt="Jollibee Logo" onerror="this.style.display='none'">
+                Jollibee
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('about')">About</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('products')">Menu</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Bida ang Saya!</h1>
+                <p>Experience the joy of Langhap-Sarap with every bite</p>
+                <a href="#" class="cta-button" onclick="showPage('products')">Order Now</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why Choose Jollibee?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><img src="c:\Users\ACTIVE PC\Downloads\images.jpg" alt="Langhap-Sarap"></div>
+                        <h3>Langhap-Sarap</h3>
+                        <p>Our signature taste that Filipinos love - crispy, juicy, and perfectly seasoned fried chicken that brings families together.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><img src="c:\Users\ACTIVE PC\Downloads\download.jpg" alt="Bida ang Saya"></div>
+                        <h3>Bida ang Saya</h3>
+                        <p>We don't just serve food, we serve happiness. Every meal is a celebration of Filipino joy and togetherness.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><img src="c:\Users\ACTIVE PC\Downloads\images (1).jpg" alt="Pamilyang Pilipino"></div>
+                        <h3>Pamilyang Pilipino</h3>
+                        <p>A proudly Filipino brand that has been serving families for generations, bringing loved ones closer through great food.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+   
+    <div id="about" class="page">
+        <section class="about-hero">
+            <div class="container">
+                <h1>Our Story</h1>
+                <p>From a single ice cream parlor to the Philippines' beloved fast food chain</p>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>The Jollibee Journey</h2>
+                        <p>What started as an ice cream parlor in 1975 has grown into the Philippines' largest and most beloved fast food chain. Founded by Tony Tan Caktiong, Jollibee began with a simple dream: to serve great-tasting food that brings joy to Filipino families.</p>
+                        
+                        <p>Our signature fried chicken, with its secret marinade and special coating, quickly became a household favorite. The sweet-style spaghetti, juicy burgers, and other Filipino-inspired dishes followed, each crafted to suit the unique taste preferences of Filipinos.</p>
+                        
+                        <p>Today, Jollibee operates over 1,400 stores worldwide, but our heart remains in the Philippines, serving the communities that made us who we are today.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\44896467054_fbe3fc9907_c.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color: white; text-align: center; font-size: 1.5rem;\'>🐝 About Jollibee<br>Bringing Joy Since 1975</span>'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" style="background: white;">
+            <div class="container">
+                <h2 class="section-title">Our Values</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">❤️</div>
+                        <h3>Customer Focus</h3>
+                        <p>We put our customers at the heart of everything we do, ensuring every experience brings a smile.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌟</div>
+                        <h3>Excellence</h3>
+                        <p>We strive for excellence in food quality, service, and creating memorable moments for families.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Respect</h3>
+                        <p>We treat everyone with dignity and respect, fostering a culture of inclusivity and warmth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="products" class="page">
+        <section class="products-hero">
+            <div class="container">
+                <h1>Our Menu</h1>
+                <p>Discover the flavors that make every meal a celebration</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\download.avif" alt="Chickenjoy" onerror="this.parentElement.innerHTML='<span>🍗 Chickenjoy</span>'">
+                    </div>
+                    <div class="product-content">
+                        <h3>Chickenjoy</h3>
+                        <p>Our world-famous fried chicken with its signature crispy coating and juicy, tender meat. Served with gravy that's the perfect complement.</p>
+                        <div class="product-price">₱179 - ₱599</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\download (1).avif" alt="Jolly Spaghetti" onerror="this.parentElement.innerHTML='<span>🍝 Jolly Spaghetti</span>'">
+                    </div>
+                    <div class="product-content">
+                        <h3>Jolly Spaghetti</h3>
+                        <p>The Filipino-style sweet spaghetti that kids and adults love, topped with hotdogs, cheese, and our special sauce.</p>
+                        <div class="product-price">₱109 - ₱189</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\download (2).avif" alt="Yumburger" onerror="this.parentElement.innerHTML='<span>🍔 Yumburger</span>'">
+                    </div>
+                    <div class="product-content">
+                        <h3>Yumburger</h3>
+                        <p>Our signature burger with a juicy beef patty, fresh lettuce, tomatoes, and our special dressing on a soft bun.</p>
+                        <div class="product-price">₱59 - ₱159</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\download (3).avif" alt="Jolly Hotdog" onerror="this.parentElement.innerHTML='<span>🍖 Jolly Hotdog</span>'">
+                    </div>
+                    <div class="product-content">
+                        <h3>Jolly Hotdog</h3>
+                        <p>A delicious all-beef hotdog served in a soft bun with our signature dressing and condiments.</p>
+                        <div class="product-price">₱79 - ₱119</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\download (4).avif" alt="Peach Mango Pie" onerror="this.parentElement.innerHTML='<span>🥧 Peach Mango Pie</span>'">
+                    </div>
+                    <div class="product-content">
+                        <h3>Peach Mango Pie</h3>
+                        <p>A crispy, flaky pie filled with sweet and tangy peach and mango filling. The perfect dessert to end your meal.</p>
+                        <div class="product-price">₱55</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="c:\Users\ACTIVE PC\Downloads\download (5).avif" alt="Drinks & Sides" onerror="this.parentElement.innerHTML='<span>🥤 Drinks & Sides</span>'">
+                    </div>
+                    <div class="product-content">
+                        <h3>Drinks & Sides</h3>
+                        <p>Complete your meal with our refreshing drinks, crispy fries, and other delicious sides.</p>
+                        <div class="product-price">₱35 - ₱89</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Jollibee Foods Corporation. All rights reserved. | Bida ang Saya!</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.remove('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.navbar');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (!navbar.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.15)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
